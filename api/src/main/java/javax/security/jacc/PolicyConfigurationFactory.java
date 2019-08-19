@@ -43,6 +43,9 @@ import java.security.SecurityPermission;
 public abstract class PolicyConfigurationFactory {
     private static String FACTORY_NAME = "javax.security.jacc.PolicyConfigurationFactory.provider";
 
+    /** The default PolicyConfigurationFactory implementation */
+    private static final String DEFAULT_FACTORY_NAME = "org.jboss.security.jacc.JBossPolicyConfigurationFactory";
+
     private static volatile PolicyConfigurationFactory policyConfigurationFactory;
 
     /**
@@ -95,7 +98,7 @@ public abstract class PolicyConfigurationFactory {
                             className[0] = System.getProperty(FACTORY_NAME);
 
                             if (className[0] == null) {
-                                throw new ClassNotFoundException("JACC:Error PolicyConfigurationFactory : property not set : " + FACTORY_NAME);
+                                className[0] = DEFAULT_FACTORY_NAME;
                             }
 
                             return Class.forName(className[0], true, Thread.currentThread().getContextClassLoader());
